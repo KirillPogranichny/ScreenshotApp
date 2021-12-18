@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,7 +18,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane onKeyPressed="#onKeyPressed" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #1F1F1F;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.screenshotapp.Controller">
     <children>
         <HBox prefHeight="26.0" prefWidth="900.0">
             <children>
@@ -37,11 +38,11 @@
                 </MenuBar>
             </children>
         </HBox>
-        <VBox prefHeight="500.0" prefWidth="50.0">
+        <VBox prefHeight="500.0" prefWidth="50.0" AnchorPane.topAnchor="30.0">
             <children>
                 <Slider fx:id="brushSizeSlider" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="1" orientation="VERTICAL" prefHeight="200.0" prefWidth="50.0" showTickLabels="true">
                     <VBox.margin>
-                        <Insets bottom="20.0" top="150.0" />
+                        <Insets bottom="20.0" top="120.0" />
                     </VBox.margin>
                     <tooltip>
                         <Tooltip text="Select brush size" />
@@ -52,7 +53,7 @@
                         <Insets left="5.0" right="5.0" />
                     </VBox.margin>
                     <value>
-                        <Color green="0.6509804129600525" blue="0.33725491166114807" />
+                        <Color />
                     </value>
                 </ColorPicker>
             </children>
@@ -60,32 +61,36 @@
                 <Insets />
             </opaqueInsets>
         </VBox>
-        <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: #E2E2E2; -fx-border-radius: 3px; -fx-border-width: 0.5px;" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
-            <children>
-                <Canvas fx:id="imgCanvas" height="486.0" width="800.0" />
-                <Canvas fx:id="drawCanvas" height="486.0" width="800.0" />
-                <Canvas fx:id="cutCanvas" disable="true" height="486.0" opacity="0.0" width="800.0" />
-            </children>
-        </StackPane>
-        <HBox layoutY="546.0" prefHeight="54.0" prefWidth="900.0">
+      <ScrollPane fx:id="scrollView" prefHeight="488.0" prefWidth="200.0" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+         <content>
+              <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-border-color: #E2E2E2; -fx-border-radius: 3px; -fx-border-width: 0.5px;">
+                  <children>
+                      <Canvas fx:id="imgCanvas" height="486.0" width="800.0" />
+                      <Canvas fx:id="drawCanvas" height="486.0" width="800.0" />
+                      <Canvas fx:id="cutCanvas" disable="true" height="486.0" opacity="0.0" width="800.0" />
+                  </children>
+              </StackPane>
+         </content>
+      </ScrollPane>
+        <HBox fillHeight="false" prefHeight="58.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <children>
                 <CheckBox fx:id="hideAppCheckbox" mnemonicParsing="false" prefHeight="30.0" prefWidth="75.0" text="Minimize " textFill="#00a656">
                     <HBox.margin>
-                        <Insets left="20.0" top="11.0" />
+                        <Insets left="20.0" right="95.0" top="11.0" />
                     </HBox.margin>
                     <font>
                         <Font name="System Bold" size="11.0" />
                     </font>
                 </CheckBox>
-                <Button fx:id="takeScreenshotBtn1" layoutX="385.0" layoutY="20.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" style="-fx-border-color: #00A656; -fx-background-color: disable; -fx-border-radius: 3px; -fx-border-width: 1px;" text="Crop image" textFill="#00a656">
+                <Button fx:id="cropImgBtn" mnemonicParsing="false" onAction="#cutButtonPressed" prefHeight="25.0" prefWidth="90.0" style="-fx-border-color: #00A656; -fx-background-color: disable; -fx-border-radius: 3px; -fx-border-width: 1px;" text="Crop image" textFill="#00a656">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                     <HBox.margin>
-                        <Insets left="95.0" right="95.0" top="12.0" />
+                        <Insets right="95.0" top="12.0" />
                     </HBox.margin>
                 </Button>
-                <Button fx:id="takeScreenshotBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="150.0" style="-fx-background-color: #00A656;" text="Take a screenshot" textFill="#1f1f1f">
+                <Button fx:id="takeScreenshotBtn" mnemonicParsing="false" onAction="#screenshotButtonPressed" prefHeight="31.0" prefWidth="150.0" style="-fx-background-color: #00A656;" text="Take a screenshot" textAlignment="CENTER" textFill="#1f1f1f">
                     <HBox.margin>
                         <Insets top="10.0" />
                     </HBox.margin>
@@ -95,7 +100,7 @@
                 </Button>
                 <Slider fx:id="pingSlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" minorTickCount="1" prefHeight="30.0" prefWidth="226.0" showTickLabels="true">
                     <HBox.margin>
-                        <Insets left="75.0" top="11.0" />
+                        <Insets left="74.0" right="74.0" top="11.0" />
                     </HBox.margin>
                     <tooltip>
                         <Tooltip text="Select a screen capture ping" />

@@ -48,7 +48,7 @@
 
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+        <testSourceDirectory>${project.basedir}/src</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -68,7 +68,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.screenshotapp/com.example.screenshotapp.HelloApplication</mainClass>
+                            <mainClass>com.example.screenshotapp/com.example.screenshotapp.Application</mainClass>
                         </configuration>
                     </execution>
                 </executions>
